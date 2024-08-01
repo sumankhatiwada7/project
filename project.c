@@ -29,7 +29,7 @@ void addcontact() {
     system("cls");
     char choice = 'y';
     FILE *p;
-    p = fopen("contact.txt", "a+");
+    p = fopen("contact.txt", "ab+");
     if (p == NULL) {
         tab; printf(RED_TEXT "Error opening file\n" RESET_TEXT);
         return;
@@ -44,9 +44,17 @@ void addcontact() {
         tab; printf("enter name:");
         fflush(stdin);
         gets(s.name);
-        tab; printf("enter email:");
-        fflush(stdin);
-        gets(s.email);
+
+        while (1) {
+            tab; printf("enter email:");
+            fflush(stdin);
+            gets(s.email);
+            if (strchr(s.email, '@') != NULL) {
+                break;
+            } else {
+                tab; printf(RED_TEXT "Invalid email. Please include '@' in the email address.\n" RESET_TEXT);
+            }
+        }
 
         while (1) {
             tab; printf("Enter a 10-digit number: ");
@@ -55,7 +63,7 @@ void addcontact() {
             if (s.number >= 1000000000ULL && s.number <= 9999999999ULL) {
                 break;
             } else {
-                tab; printf(RED_TEXT "Invalid input. Please enter a 10-digit number.\n"RESET_TEXT);
+                tab; printf(RED_TEXT "Invalid input. Please enter a 10-digit number.\n" RESET_TEXT);
             }
         }
 
@@ -73,6 +81,7 @@ void addcontact() {
     }
     fclose(p);
 }
+
 
 void editcontact() {
     system("cls");
@@ -98,7 +107,7 @@ void editcontact() {
 
         tab;printf(BLUE_TEXT"-------------\n");
         tab;printf("EDIT CONTACT\n");
-        tab;printf("-------------\n"RESET_TEXT);
+        tab;printf("-------------\n" RESET_TEXT);
 
         
         while (1) {
@@ -179,10 +188,10 @@ void editcontact() {
         if (f == 0) {
             printf("Contact not found\n\n");
         } else {
-            printf("CONTACT EDITED SUCCESSFULLY.\n\n");
+            tab;printf(GREEN_TEXT"CONTACT EDITED SUCCESSFULLY.\n\n"RESET_TEXT);
         }
 
-        printf("DO YOU WANT TO EDIT ANOTHER CONTACT (y/n): ");
+        tab;printf("DO YOU WANT TO EDIT ANOTHER CONTACT (y/n): ");
         fflush(stdin);
         choice = getchar();
     }
@@ -192,12 +201,15 @@ void editcontact() {
 void searchcontact() {
     system("cls");
     int f = 0;
+    char choice = 'y';
     FILE *p;
     p = fopen("contact.txt", "r");
     if (p == NULL) {
         tab; printf(RED_TEXT "Error opening file\n" RESET_TEXT);
         return;
     }
+    while(choice == 'y'){
+	
     tab; printf(BLUE_TEXT "-----------\n");
     tab; printf("SEARCH CONTACT\n");
     tab; printf("-----------\n" RESET_TEXT);
@@ -221,16 +233,23 @@ void searchcontact() {
     if (f == 0) {
         tab; printf(RED_TEXT "Contact not found\n" RESET_TEXT);
     }
+     tab;printf("PRESS ANY KEY FOR EXIT : ");
+        fflush(stdin);
+        choice = getchar();
+}
 }
 
 void listcontact() {
     system("cls");
     FILE *p;
+    char choice = 'y';
     p = fopen("contact.txt", "r");
     if (p == NULL) {
         tab; printf(RED_TEXT "Error opening file\n" RESET_TEXT);
         return;
     }
+    while(choice == 'y'){
+	
     tab; printf(BLUE_TEXT "-----------\n");
     tab; printf("LIST CONTACTS\n");
     tab; printf("-----------\n" RESET_TEXT);
@@ -239,6 +258,11 @@ void listcontact() {
         tab; printf("%-20s %-30s %-20llu %s\n", s.name, s.email, s.number, s.address);
     }
     fclose(p);
+     tab;printf("PRESS ANY KEY FOR EXIT : ");
+        fflush(stdin);
+        choice = getchar();
+    }
+    
 }
 
 void deletecontact() {
@@ -323,9 +347,9 @@ void passwordhide(char *password) {
 void loading() {
     int i;
     tab; printf(YELLOW_TEXT "LOADING");
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 1.5; i++) {
         fflush(stdout);
-        sleep(1);
+        sleep(1.5);
         printf(".......");
     }
     printf("\n" RESET_TEXT);
@@ -363,8 +387,8 @@ int login() {
             if (strcmp(l.username, username) == 0 && strcmp(l.password, password) == 0) {
                 j = 1;
                 tab; printf(GREEN_TEXT "LOGIN SUCCESSFUL\n" RESET_TEXT);
+                loading();
                 system("cls");
-                break;
             }
         }
 
@@ -399,7 +423,7 @@ void signin() {
         return;
     }
     tab; printf(BLUE_TEXT "---------------------------\n");
-    tab; printf("WELCOME TO THE SIGN IN PAGE\n");
+    tab; printf("WELCOME TO THE REGESTRATION PAGE\n");
     tab; printf("---------------------------\n" RESET_TEXT);
     tab; printf("Enter name:");
     gets(l.name);
@@ -567,7 +591,7 @@ int main() {
         tab; printf(BLUE_TEXT "---------------------------\n");
         tab; printf("WELCOME TO THE LOGIN MENU\n");
         tab; printf("---------------------------\n" RESET_TEXT);
-        tab; printf("1. Sign In\n");
+        tab; printf("1. REGESTRATION\n");
         tab; printf("2. Login\n");
         tab; printf("3. Forget Password\n");
         tab; printf("Enter your choice:");
